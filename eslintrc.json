@@ -1,0 +1,12 @@
+import { useQuery } from "@tanstack/react-query";
+import { QUERY_STALE_TIME } from "@/constants/api";
+import { fetchAqiBundle } from "@/services/aqi-service";
+
+export function useAqi(latitude: number | undefined, longitude: number | undefined) {
+  return useQuery({
+    queryKey: ["aqi", latitude, longitude],
+    queryFn: () => fetchAqiBundle(latitude as number, longitude as number),
+    enabled: latitude !== undefined && longitude !== undefined,
+    staleTime: QUERY_STALE_TIME.aqi,
+  });
+}
